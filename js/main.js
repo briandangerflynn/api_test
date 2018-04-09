@@ -136,15 +136,15 @@ $(document).ready(function() {
         },
       ],
       customer: {
-        first_name: 'Bob',
-        last_name: 'Builder',
-        phone: '1234567890',
-        email: 'bob@builder.com',
-        street: '123 B St',
-        street_two: 'Apt 2R',
+        first_name: 'Brian',
+        last_name: 'Flynn',
+        phone: '6167804457',
+        email: 'brian@airtailor.customer',
+        street: '1 Saint Nicholas Terrace',
+        street_two: 'Apt 53',
         city: 'New York',
         state_province: 'NY',
-        zip_code: '10031',
+        zip_code: '10027',
       },
     },
   };
@@ -153,7 +153,7 @@ $(document).ready(function() {
 
   $("#submit").click(function() {
     /* Act on the event */
-
+    console.log(data)
     $.ajax({
       url: 'https://portal.airtailor.com/api/v1/orders',
       method: 'POST',
@@ -177,6 +177,7 @@ $(document).ready(function() {
 
 // AIR TAILOR API KEY: O7iq7W0Kcg8MynMp3aaHzgtt
 
+// QwZL2CvAUf8V1vYHZIc2Zgtt
 
 
 
