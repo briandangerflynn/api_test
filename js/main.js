@@ -50,15 +50,22 @@ $(document).ready(function() {
   //
   //
   $(".alteration-card").click(function() {
-    currentAltName = (($(this).find("p").html()))
-    currentAltPrice = (($(this).find("span").html()))
-    $(this).css('background-color', 'lightgrey');
-    currentAlteration = {name:currentAltName, price:currentAltPrice}
-    currentAlterations.push(currentAlteration)
+    if ($(this).hasClass("selected")){
+      currentAlterations.pop()
+      itemPrice = 0
+      $(this).css('background-color', 'white');
+      $(this).toggleClass('selected');
+    } else {
+      currentAltName = (($(this).find("p").html()))
+      currentAltPrice = (($(this).find("span").html()))
+      $(this).toggleClass('selected');
+      $(this).css('background-color', 'lightgray');
+      currentAlteration = {name:currentAltName, price:currentAltPrice}
+      currentAlterations.push(currentAlteration)
 
-    var integerPrice = parseInt(currentAltPrice)
-    itemPrice = itemPrice + integerPrice
-
+      var integerPrice = parseInt(currentAltPrice)
+      itemPrice = itemPrice + integerPrice
+    }
   });
 
   //
@@ -84,6 +91,8 @@ $(document).ready(function() {
 
     currentAlterations = [];
     currentGarment = "";
+
+    $(".alteration-card").removeClass("selected")
 
     $("#header1").toggleClass('hidden');
     $("#header2").toggleClass('hidden');
@@ -141,6 +150,7 @@ $(document).ready(function() {
 
       // return alterations cards to white
       $(".alteration-card").css('background-color', 'white');
+      $(".alteration-card").removeClass("selected")
       //
 
       // return view to garment select
@@ -175,17 +185,39 @@ $(document).ready(function() {
   //
   //
 
+  // checkout button
    $("#checkout-button").click(function() {
+      // hide garment and alteration divs, show review page
       $("main").toggleClass('hidden');
-      $("#order-details").toggleClass('hidden');
+      $("#review-order").toggleClass('hidden');
+
+      // show proper header for review page
       if(currentGarment == ""){
         $("#header1").toggleClass('hidden');
       } else {
         $("#header2").toggleClass('hidden');
       };
-
       $("#header3").toggleClass('hidden');
+
+      // display items in basket
+      $.each(items, function(i, item){
+        $("#review-order-items").append("<div class='review-item'><p class='review-garment'><span class='float-left'>" + item.garment + "</span><span class='float-right'><span id='review-edit'>edit</span> | <span id='review-delete'>delete</span></span></p></div>")
+
+        $.each(item.alterations, function(i, alteration){
+          $(".review-item:last").append("<p class='review-alteration clear-float'><span class='float-left'>" + alteration.name + "</span><span class='float-right'>$" + alteration.price + "</span></p>")
+        });
+      });
+
+      $("#review-total-price").html(totalPrice.toFixed(2))
+
     });
+   // end of checkout button
+
+
+   //currentItem = {id: counter, garment: currentGarment, alterations: currentAlterations, total: itemPrice}
+
+
+
 
    // edit garment button
    $(document).on('click', '#basket-edit', function(){
@@ -201,6 +233,8 @@ $(document).ready(function() {
       var currentIndex = items.indexOf(currentItem)
       console.log(currentIndex)
    });
+   //
+
 
    // delete garment button
    $(document).on('click', '#basket-delete', function(){
