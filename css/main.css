@@ -100,7 +100,8 @@ header h2 {
 }
 
 .alteration-div {
-  height: 120px;
+  height: 125px;
+  width: 100px;
   border: 1px solid black;
 }
 
