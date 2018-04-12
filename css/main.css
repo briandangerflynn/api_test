@@ -130,6 +130,7 @@ header h2 {
 
 #add-alt-to-basket {
   width: 90%;
+  background-color: rgba(0,0,53,.5);
 }
 
 .garment-title {
@@ -243,7 +244,86 @@ header h2 {
   width: 328px;
   margin: 0 auto;
   margin-bottom: 100px;
+  overflow: auto;
 }
 
+#review-order hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 
+.review-garment {
+  font-weight: bold;
+}
+
+.review-alteration {
+}
+
+#review-total {
+  overflow: auto;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+#review-notes {
+  font-size: 12px;
+  text-align: center;
+  text-decoration: underline;
+  color: #DE0421;
+  height: 100px;
+  line-height: 100px;
+}
+
+#review-notes img {
+  vertical-align: -10px;
+  width: 25px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#review-notes-textarea {
+  box-sizing: border-box;
+  width: 100%;
+  resize: vertical;
+  border-radius: 5px;
+  min-height: 100px;
+  padding: 8px;
+  line-height: 14px;
+  background-color: rgba(216, 237, 252, 0.5);;
+  margin-top: -20px;
+}
+
+#review-notes-textarea::placeholder {
+  line-height: 14px;
+}
+
+#review-shipping {
+  margin-top: 30px;
+}
+
+#review-contact {
+  margin-top: 30px;
+}
+
+.review-edit-account {
+  text-transform: uppercase;
+  font-size: 10px;
+  margin-left: 10px;
+  text-decoration: underline;
+}
+
+#proceed-to-pay {
+  display: block;
+  margin-top: 30px;
+  width: 100%;
+}
+
+#promo-code-note {
+  font-style: italic;
+  font-size: 12px;
+  text-align: center;
+  color: gray;
+}
 /* END ORDER REVIEW PAGE */

@@ -252,10 +252,11 @@
         $<span class="alteration-price">25.00</span>
       </div>
 
-      <div class="alteration-card necktie-alteration hidden">
+      <!-- <div class="alteration-card necktie-alteration hidden">
         <p>Slim and Shorten Necktie</p>
         $<span class="alteration-price">35.00</span>
-      </div>
+      </div> -->
+
       <!-- end neckties -->
 
 
@@ -287,25 +288,40 @@
 
   <!-- review order page -->
   <div id="review-order" class="hidden">
+    <!-- displays order items below -->
     <div id="review-order-items">
 
     </div>
-    <br>
+    <!--  -->
     <hr class="clear-float">
     <p class="review-garment"><span class='float-left'>Shipping</span></p>
     <p class="review-alteration clear-float">
       <span class='float-left'>USPS Priority Shipping</span>
       <span id="shipping-price" class="float-right">$6.00</span>
     </p>
-    <br>
     <hr class="clear-float">
     <p id="review-total" >
       <span class='float-left'>Total</span>
-      <span id="review-total-price" class="float-right">$</span>
+      <span id="review-total-price" class="float-right"></span>
     </p>
-    <br>
     <hr class="clear-float">
-    <textarea name="notes">Any Notes?</textarea>
+    <p id="review-notes"><img src="images/notes.png" alt="notes">Any notes for your order? (optional)</p>
+    <textarea id="review-notes-textarea" class="hidden" placeholder="Special garments or alterations? Enter any important notes about the overall order here to help us serve you best!"></textarea>
+    <hr>
+    <div id="review-shipping">
+      <p class="review-garment">Shipping <span class="review-edit-account">edit</span></p>
+      <p class="review-alteration">Full Name</p>
+      <p class="review-alteration">Address 1</p>
+      <p class="review-alteration">Address 2</p>
+      <p class="review-alteration">City, State 00000</p>
+    </div>
+    <div id="review-contact">
+      <p class="review-garment">Contact <span class="review-edit-account">edit</span></p>
+      <p class="review-alteration">123-456-7890</p>
+      <p class="review-alteration">email@email.com</p>
+    </div>
+    <button id="proceed-to-pay">Proceed to Pay</button>
+    <p id="promo-code-note">Redeem promo code on next screen</p>
   </div>
   <!-- end review order page -->
 
@@ -321,3 +337,6 @@
   <script src="js/main.js"></script>
 </body>
 </html>
+
+
+

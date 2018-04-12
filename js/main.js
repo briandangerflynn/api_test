@@ -1,4 +1,4 @@
-$(document).ready(function() {
+  $(document).ready(function() {
 
 
   // GLOBAL VARIABLES
@@ -15,6 +15,7 @@ $(document).ready(function() {
   var items = [];
   var totalPrice = 0;
   var counter = 0;
+  var orderNotes;
 
   //
   //
@@ -49,12 +50,17 @@ $(document).ready(function() {
   // ALTERATION SELECTION PAGE
   //
   //
+
+
   $(".alteration-card").click(function() {
     if ($(this).hasClass("selected")){
       currentAlterations.pop()
       itemPrice = 0
       $(this).css('background-color', 'white');
       $(this).toggleClass('selected');
+      if (currentAlterations.length < 1){
+        $("#add-alt-to-basket").css('background-color', 'rgba(0,0,53,.5)');
+      }
     } else {
       currentAltName = (($(this).find("p").html()))
       currentAltPrice = (($(this).find("span").html()))
@@ -62,11 +68,12 @@ $(document).ready(function() {
       $(this).css('background-color', 'lightgray');
       currentAlteration = {name:currentAltName, price:currentAltPrice}
       currentAlterations.push(currentAlteration)
-
+      $("#add-alt-to-basket").css('background-color', 'rgba(0,0,53)');
       var integerPrice = parseInt(currentAltPrice)
       itemPrice = itemPrice + integerPrice
     }
   });
+
 
   //
   //
@@ -118,7 +125,7 @@ $(document).ready(function() {
       //
 
       // establish item details
-      currentItem = {id: counter, garment: currentGarment, alterations: currentAlterations, total: itemPrice}
+      currentItem = {id: counter, garment: currentGarment, alterations: currentAlterations, total: itemPrice, notes: ""}
 
       items.push(currentItem)
       //
@@ -185,6 +192,51 @@ $(document).ready(function() {
   //
   //
 
+  // edit garment button
+  $(document).on('click', '#basket-edit', function(){
+    var currentDiv = $(this).parent().parent().parent()
+    console.log(currentDiv)
+    var basketIndex = currentDiv.attr('id')
+    console.log(basketIndex)
+    $.each(items, function(i, item){
+      if(item.id == basketIndex){
+        currentItem = item
+      }
+    });
+    var currentIndex = items.indexOf(currentItem)
+    console.log(currentIndex)
+  });
+  //
+
+
+  // delete garment button
+  $(document).on('click', '#basket-delete', function(){
+    // save current div to local variable
+    var currentDiv = $(this).parent().parent().parent()
+
+    // find id of current div
+    var basketIndex = currentDiv.attr('id')
+
+    // use id of current div to find id of item
+    $.each(items, function(i, item){
+      if(item.id == basketIndex){
+        currentItem = item
+      }
+    });
+
+    // use id of item to find index of item
+    var currentIndex = items.indexOf(currentItem)
+
+    // delete current div, subtract price from total, and remove current item from items array
+    currentDiv.remove()
+    totalPrice = totalPrice - currentItem.total
+    $("#total-price").html(totalPrice.toFixed(2))
+    items.splice(currentIndex,1)
+    if (items.length == 0){
+      $("#basket").toggleClass('hidden');
+    }
+  });
+
   // checkout button
    $("#checkout-button").click(function() {
       // hide garment and alteration divs, show review page
@@ -201,84 +253,101 @@ $(document).ready(function() {
 
       // display items in basket
       $.each(items, function(i, item){
-        $("#review-order-items").append("<div class='review-item'><p class='review-garment'><span class='float-left'>" + item.garment + "</span><span class='float-right'><span id='review-edit'>edit</span> | <span id='review-delete'>delete</span></span></p></div>")
+        $("#review-order-items").append("<div id=" + item.id + " class='review-item'><p class='review-garment'><span class='float-left'>" + item.garment + "</span><span class='float-right'><span id='review-edit'>edit</span> | <span id='review-delete'>delete</span></span></p></div>")
 
         $.each(item.alterations, function(i, alteration){
           $(".review-item:last").append("<p class='review-alteration clear-float'><span class='float-left'>" + alteration.name + "</span><span class='float-right'>$" + alteration.price + "</span></p>")
         });
       });
 
-      $("#review-total-price").html(totalPrice.toFixed(2))
-
+      // add total price
+      $("#review-total-price").html("$" + (totalPrice + 6).toFixed(2))
     });
-   // end of checkout button
+  // end of checkout button
+
+  //
+  //
+  // END OF BASKET
 
 
-   //currentItem = {id: counter, garment: currentGarment, alterations: currentAlterations, total: itemPrice}
+  // ORDER REVIEW PAGE
+  //
+  //
 
+  // Not done? Add another garment button
+  $("#add-garment").click(function() {
+    $("main").toggleClass('hidden');
+    $("#review-order").toggleClass('hidden');
 
+    // show proper header for garment page
+    if(currentGarment == ""){
+      $("#header1").toggleClass('hidden');
+    } else {
+      $("#header2").toggleClass('hidden');
+    };
+    $("#header3").toggleClass('hidden');
+  });
 
+  // review-delete button
+  $(document).on('click', '#review-delete', function(){
+    // save current div to local variable
+    var currentDiv = $(this).parent().parent().parent()
 
-   // edit garment button
-   $(document).on('click', '#basket-edit', function(){
-      var currentDiv = $(this).parent().parent().parent()
-      console.log(currentDiv)
-      var basketIndex = currentDiv.attr('id')
-      console.log(basketIndex)
-      $.each(items, function(i, item){
-        if(item.id == basketIndex){
-          currentItem = item
-        }
-      });
-      var currentIndex = items.indexOf(currentItem)
-      console.log(currentIndex)
-   });
-   //
+    // find id of current div
+    var basketIndex = currentDiv.attr('id')
 
-
-   // delete garment button
-   $(document).on('click', '#basket-delete', function(){
-      // save current div to local variable
-      var currentDiv = $(this).parent().parent().parent()
-
-      // find id of current div
-      var basketIndex = currentDiv.attr('id')
-
-      // use id of current div to find id of item
-      $.each(items, function(i, item){
-        if(item.id == basketIndex){
-          currentItem = item
-        }
-      });
-
-      // use id of item to find index of item
-      var currentIndex = items.indexOf(currentItem)
-
-      // delete current div, subtract price from total, and remove current item from items array
-      currentDiv.remove()
-      totalPrice = totalPrice - currentItem.total
-      $("#total-price").html(totalPrice.toFixed(2))
-      items.splice(currentIndex,1)
-      if (items.length == 0){
-        $("#basket").toggleClass('hidden');
+    // // use id of current div to find id of item
+    $.each(items, function(i, item){
+      if(item.id == basketIndex){
+        currentItem = item
       }
-   });
+    });
 
-   //
-   //
-   // END OF BASKET
+    // // use id of item to find index of item
+    var currentIndex = items.indexOf(currentItem)
 
+    // // delete current div
+    currentDiv.remove()
 
-   // ORDER REVIEW PAGE
-   //
-   //
-   $("#add-garment").click(function() {
+    // remove same item from basket
+    $("#basket #" + basketIndex).remove()
 
-   });
+    // subtract price from total and update total in basket
+    totalPrice = totalPrice - currentItem.total
+    $("#total-price").html(totalPrice)
 
-   //
-   //
-   // END ORDER REVIEW PAGE
+    // remove current item from items array
+    $("#review-total-price").html(totalPrice.toFixed(2))
+    items.splice(currentIndex,1)
+
+    // hide review page and basket, return to garments page
+    if (items.length == 0){
+      $("main").toggleClass('hidden');
+      $("#review-order").toggleClass('hidden');
+      $("#basket").toggleClass('hidden');
+
+      // show proper header for garment page
+      if(currentGarment == ""){
+        $("#header1").toggleClass('hidden');
+      } else {
+        $("#header2").toggleClass('hidden');
+      };
+      $("#header3").toggleClass('hidden');
+      }
+  });
+
+  // add notes button
+  $("#review-notes").click(function() {
+    $("#review-notes-textarea").toggleClass('hidden');
+  });
+
+  $("#proceed-to-pay").click(function(){
+    console.log(click)
+  })
+
+  //
+  //
+  // END ORDER REVIEW PAGE
 
 
   // POST REQUEST TO AIR TAILOR API
@@ -339,9 +408,9 @@ $(document).ready(function() {
 
 
 
-// AIR TAILOR API KEY: O7iq7W0Kcg8MynMp3aaHzgtt
+  // AIR TAILOR API KEY: O7iq7W0Kcg8MynMp3aaHzgtt
 
-// QwZL2CvAUf8V1vYHZIc2Zgtt
+  // QwZL2CvAUf8V1vYHZIc2Zgtt
 
 
 
